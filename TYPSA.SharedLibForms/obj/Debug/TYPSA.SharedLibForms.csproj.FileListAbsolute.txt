@@ -1,0 +1,13 @@
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Debug\TYPSA.SharedLibForms.pdb
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.csproj.AssemblyReference.cache
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.csproj.CoreCompileInputs.cache
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.pdb
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ProgressBarControl.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ProjectCodeDialogTask.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.csproj.GenerateResource.cache
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.PathEntry.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ExcelPathEntry.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.SelectionMethodDialog.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Debug\TYPSA.SharedLibForms.dll.config
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Debug\TYPSA.SharedLibForms.dll
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.dll
