@@ -61,6 +61,11 @@ namespace TYPSA.SharedLib.UserForms
         {
 
         }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }
 

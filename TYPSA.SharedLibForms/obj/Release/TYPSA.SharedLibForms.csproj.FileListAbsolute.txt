@@ -11,3 +11,4 @@ C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLibFor
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\TYPSA.SharedLibForms.dll.config
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\TYPSA.SharedLibForms.dll
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLibForms.dll
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.DoubleInputForm.resources

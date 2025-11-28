@@ -39,7 +39,17 @@ namespace TYPSA.SharedLib.UserForms
             return new Point(x, y);
         }
 
-        public static int get__width_textbox(Label label, int uiWidth, int spacing)
+        public static Point get_location_textbox_NextToLabel(Label label)
+        {
+            // Alinear en X a la derecha del Label con un margen de 10px
+            int x = label.Location.X + label.Width + 10;
+            // Usar la misma posición Y del Label
+            int y = label.Location.Y;
+            // return
+            return new Point(x, y);
+        }
+
+        public static int get_width_textbox(Label label, int uiWidth, int spacing)
         {
             // Coordenada donde termina el Label
             int ptoIni = label.Location.X + label.Width;
@@ -49,6 +59,12 @@ namespace TYPSA.SharedLib.UserForms
 
             // Retornar el ancho del TextBox
             return ptoFin - ptoIni;
+        }
+
+        public static int get_width_textbox_NextToLabel(int fixedWidth)
+        {
+            // Devolver el ancho fijo del TextBox
+            return fixedWidth;
         }
 
         public static Point get_location_button(Size formSize, Size controlSize)
@@ -127,10 +143,24 @@ namespace TYPSA.SharedLib.UserForms
                 BackColor = Color.FromArgb(245, 245, 245), // Gris más claro, estilo moderno
                 BorderStyle = BorderStyle.FixedSingle,     // Borde fino
                 Font = new Font("Segoe UI", 9),            // Fuente moderna y estándar
-                Size = new Size(get__width_textbox(label, uiWidth, spacing), 50), // Establecer tamaño
+                Size = new Size(get_width_textbox(label, uiWidth, spacing), 50), // Establecer tamaño
                 Location = get_location_textbox(label, formSize, label.PreferredSize) // Calcular ubicación
             };
 
+            return textBox;
+        }
+
+        public static TextBox textBox_NextToLabel(int fixedWidth, Label label)
+        {
+            TextBox textBox = new TextBox
+            {
+                BackColor = Color.FromArgb(245, 245, 245), // Gris más claro, estilo moderno
+                BorderStyle = BorderStyle.FixedSingle,     // Borde fino
+                Font = new Font("Segoe UI", 9),            // Fuente moderna y estándar
+                Size = new Size(get_width_textbox_NextToLabel(fixedWidth), 24), // Más compacto
+                Location = get_location_textbox_NextToLabel(label)
+            };
+            // return
             return textBox;
         }
 
@@ -166,6 +196,30 @@ namespace TYPSA.SharedLib.UserForms
             {
                 chListBox.Items.Add(item);
             }
+
+            return chListBox;
+        }
+
+        public static CheckedListBox checkedListBox(
+            Control controlAbove,
+            Button btnNext,
+            int spacing,
+            int uiHeight,
+            int uiWidth,
+            string[] listInput
+        )
+        {
+            // Crear CheckedListBox
+            CheckedListBox chListBox = new CheckedListBox
+            {
+                Location = new Point(spacing, controlAbove.Bottom + spacing), // Debajo del control indicado
+                Width = uiWidth - (spacing * 2), // Ancho total
+                Height = (btnNext.Top - spacing) - (controlAbove.Bottom + spacing) // Altura dinámica
+            };
+
+            // Agregar elementos
+            foreach (var item in listInput)
+                chListBox.Items.Add(item);
 
             return chListBox;
         }

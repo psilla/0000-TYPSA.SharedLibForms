@@ -48,22 +48,54 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="00-UserForms\AutoCloseForm.cs">
+    <Compile Include="00-UserForms\Atenea\ElemSelectionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\Atenea\ElemSelectionForm.Designer.cs">
+      <DependentUpon>ElemSelectionForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="00-UserForms\AutoClose\AutoCloseForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\CheckList\CheckListBoxFormSearch.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="00-UserForms\Clases.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\CheckListBoxForm.cs">
+    <Compile Include="00-UserForms\CheckList\CheckListBoxForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\CheckListBoxFormSelectedItems.cs">
+    <Compile Include="00-UserForms\CheckList\CheckListBoxFormSelectedItems.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\CheckListBoxFormUniqueSelection.cs">
+    <Compile Include="00-UserForms\CheckList\CheckListBoxFormUniqueSelection.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\ShowStringBuilder.cs" />
+    <Compile Include="00-UserForms\cls-FolderBrowser.cs" />
+    <Compile Include="00-UserForms\DoubleInputForm .cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\DropDown\DropDownFormAtenea.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\FilePathForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\PasswordCodeDialogTask.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\Atenea\ElemPathEntry.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\Atenea\ElemPathEntry.Designer.cs">
+      <DependentUpon>ElemPathEntry.cs</DependentUpon>
+    </Compile>
+    <Compile Include="00-UserForms\SelectFilesDialog.cs">
+      <SubType>Form</SubType>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="00-UserForms\ShowStringBuilder\ShowStringBuilder.cs" />
     <Compile Include="00-UserForms\InstanciarFormularios.cs" />
     <Compile Include="00-UserForms\ExcelPathEntry.cs">
       <SubType>Form</SubType>
@@ -95,16 +127,16 @@
     <Compile Include="00-UserForms\ProjectCodeDialogTask.Designer.cs">
       <DependentUpon>ProjectCodeDialogTask.cs</DependentUpon>
     </Compile>
-    <Compile Include="00-UserForms\TextBoxForm.cs">
+    <Compile Include="00-UserForms\TextBox\TextBoxForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDownFormList.cs">
+    <Compile Include="00-UserForms\DropDown\DropDownFormList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDownForm.cs">
+    <Compile Include="00-UserForms\DropDown\DropDownForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDownFormwithFormText.cs">
+    <Compile Include="00-UserForms\DropDown\DropDownFormwithFormText.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Program.cs" />
@@ -114,8 +146,33 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="00-UserForms\Atenea\ElemSelectionForm.resx">
+      <DependentUpon>ElemSelectionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\CheckList\CheckListBoxFormSearch.resx">
+      <DependentUpon>CheckListBoxFormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\DoubleInputForm .resx">
+      <DependentUpon>DoubleInputForm .cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\DropDown\DropDownFormAtenea.resx">
+      <DependentUpon>DropDownFormAtenea.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\ExcelPathEntry.resx">
       <DependentUpon>ExcelPathEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\FilePathForm.resx">
+      <DependentUpon>FilePathForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\PasswordCodeDialogTask.resx">
+      <DependentUpon>PasswordCodeDialogTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\Atenea\ElemPathEntry.resx">
+      <DependentUpon>ElemPathEntry.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\SelectFilesDialog.resx">
+      <DependentUpon>SelectFilesDialog.cs</DependentUpon>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\SelectionMethodDialog.resx">
       <DependentUpon>SelectionMethodDialog.cs</DependentUpon>

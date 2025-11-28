@@ -12,9 +12,15 @@ namespace TYPSA.SharedLib.UserForms
         private CheckedListBox chListBox;
         private Button btnNext;
 
+        // Lista completa original
+        private List<string> listaOriginal; 
         public List<string> Salida { get; private set; }
 
-        public CheckListBoxFormSelectedItems(string mensajeSel, List<string> listInput, HashSet<string> itemsMarcadosPorDefecto = null)
+        public CheckListBoxFormSelectedItems(
+            string mensajeSel,
+            List<string> listInput, 
+            HashSet<string> itemsMarcadosPorDefecto = null
+        )
         {
             this.Text = "Selection Form";
             this.BackColor = Color.White;
@@ -22,6 +28,11 @@ namespace TYPSA.SharedLib.UserForms
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
             this.Salida = null;
+
+            // Habilitar captura de teclado
+            this.KeyPreview = true;
+            this.KeyDown += OnKeyDown;
+            listaOriginal = new List<string>(listInput);
 
             var screenSize = Screen.PrimaryScreen.WorkingArea;
             this.Width = screenSize.Width / 2;
@@ -40,7 +51,9 @@ namespace TYPSA.SharedLib.UserForms
             this.AcceptButton = btnNext;
             this.Controls.Add(btnNext);
 
-            chListBox = Clases.checkedListBox(header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray());
+            chListBox = Clases.checkedListBox(
+                header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray()
+            );
             this.Controls.Add(chListBox);
 
             // ✔️ Marcar por defecto los items especificados
@@ -87,6 +100,69 @@ namespace TYPSA.SharedLib.UserForms
                 }
             }
         }
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            // CTRL + H → Ocultar NO seleccionados
+            if (e.Control && e.KeyCode == Keys.H)
+            {
+                OcultarNoSeleccionados();
+                e.SuppressKeyPress = true;
+            }
+
+            // CTRL + M → Mostrar todo
+            if (e.Control && e.KeyCode == Keys.M)
+            {
+                MostrarTodo();
+                e.SuppressKeyPress = true;
+            }
+
+            // CTRL + I → Toggle (invertir)
+            if (e.Control && e.KeyCode == Keys.I)
+            {
+                ToggleOcultar();
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void OcultarNoSeleccionados()
+        {
+            var seleccionados = chListBox.CheckedItems
+                .Cast<object>()
+                .Select(x => x.ToString())
+                .ToHashSet();
+
+            chListBox.Items.Clear();
+
+            foreach (var item in listaOriginal)
+            {
+                if (seleccionados.Contains(item))
+                    chListBox.Items.Add(item, true);
+            }
+        }
+
+        private void MostrarTodo()
+        {
+            var seleccionados = chListBox.CheckedItems
+                .Cast<object>()
+                .Select(x => x.ToString())
+                .ToHashSet();
+
+            chListBox.Items.Clear();
+
+            foreach (var item in listaOriginal)
+                chListBox.Items.Add(item, seleccionados.Contains(item));
+        }
+
+        private void ToggleOcultar()
+        {
+            if (chListBox.Items.Count == listaOriginal.Count)
+                OcultarNoSeleccionados();
+            else
+                MostrarTodo();
+        }
+
+
 
         private void InitializeComponent()
         {

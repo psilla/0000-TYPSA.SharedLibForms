@@ -1,11 +1,15 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
+using TYPSA.MC.RibbonButton.Revit.UserForms;
 
 namespace TYPSA.SharedLib.UserForms
 {
     public class InstanciarFormularios
     {
-        public static List<string> CheckListBoxFormOut(string mensaje, List<string> listInput)
+        public static List<string> CheckListBoxFormOut(
+            string mensaje, 
+            List<string> listInput
+        )
         {
             // Crear instancia del formulario
             CheckListBoxForm ventana =
@@ -13,8 +17,50 @@ namespace TYPSA.SharedLib.UserForms
 
             // Mostrar el formulario de manera modal
             Application.Run(ventana);
+            // Validamos
+            if (ventana.salida == null)
+            {
+                // Mensaje
+                MessageBox.Show(
+                    "No selection was made.\nReturning null.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                // Finalizamos
+                return null;
+            }
+            // return
+            return ventana.salida;
+        }
 
-            // Retornar la propiedad salida
+        public static List<string> CheckListBoxFormSearchOut(
+            string mensaje,
+            List<string> listInput,
+            List<string> listInputByDefualt = null
+        )
+        {
+            // Crear instancia del formulario
+            CheckListBoxFormSearch ventana =
+                new CheckListBoxFormSearch(mensaje, listInput, listInputByDefualt);
+
+            // Mostrar el formulario de manera modal
+            Application.Run(ventana);
+            // Validamos
+            if (ventana.salida == null)
+            {
+                // Mensaje
+                MessageBox.Show(
+                    "No selection was made.\nReturning null.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                // Finalizamos
+                return null;
+            }
+
+            // return
             return ventana.salida;
         }
 
@@ -45,6 +91,16 @@ namespace TYPSA.SharedLib.UserForms
 
                 // Retornar la propiedad salida
                 return ventana.salida;
+            }
+        }
+
+        public static double? DoubleInputFormOut(string mensaje, string formText, double? defaultValue = null)
+        {
+            using (DoubleInputForm ventana =
+                new DoubleInputForm(mensaje, formText, defaultValue))
+            {
+                // return
+                return ventana.ShowDialog() == DialogResult.OK ? ventana.salida : null;
             }
         }
 
@@ -92,6 +148,47 @@ namespace TYPSA.SharedLib.UserForms
 
             // Retornar la propiedad salida convertida a string o un valor predeterminado
             return ventana.salida as string ?? string.Empty;
+        }
+
+        public static object DropDownFormAteneaOut(
+            string mensaje,
+            object[] lista,
+            object defaultValue = null
+        )
+        {
+            // Crear instancia del formulario
+            DropDownFormAtenea ventana = 
+                new DropDownFormAtenea(mensaje, lista, defaultValue);
+
+            // Mostrar el formulario de manera modal
+            Application.Run(ventana);
+            // Validamos
+            if (ventana.salida == null)
+            {
+                // Mensaje
+                MessageBox.Show(
+                    "No selection was made.\nReturning null.",
+                    "Warning",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information
+                );
+                // Finalizamos
+                return null;
+            }
+            // return
+            return ventana.salida;
+        }
+
+        public static string FilePathFormOut(string mensaje)
+        {
+            // Crear instancia del formulario
+            FilePathForm ventana = new FilePathForm(mensaje);
+
+            // Mostrar el formulario de manera modal
+            Application.Run(ventana);
+
+            // Retornar la propiedad salida
+            return ventana.salida;
         }
 
         public static string TextBoxFormOut(string mensaje, string defaultValue = "")
