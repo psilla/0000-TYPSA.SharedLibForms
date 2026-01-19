@@ -60,6 +60,9 @@
     <Compile Include="00-UserForms\CheckList\CheckListBoxFormSearch.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="00-UserForms\CheckList\CheckListBoxFormUniqueSelectionSearch.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="00-UserForms\Clases.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -139,6 +142,9 @@
     <Compile Include="00-UserForms\DropDown\DropDownFormwithFormText.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="00-UserForms\TextBox\TextBoxForm_NextToLabel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -151,6 +157,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\CheckList\CheckListBoxFormSearch.resx">
       <DependentUpon>CheckListBoxFormSearch.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\CheckList\CheckListBoxFormUniqueSelectionSearch.resx">
+      <DependentUpon>CheckListBoxFormUniqueSelectionSearch.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\DoubleInputForm .resx">
       <DependentUpon>DoubleInputForm .cs</DependentUpon>

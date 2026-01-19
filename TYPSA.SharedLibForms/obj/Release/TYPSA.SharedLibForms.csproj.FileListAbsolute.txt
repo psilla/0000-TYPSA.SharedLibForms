@@ -12,3 +12,13 @@ C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\TYPSA.SharedLibFor
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\TYPSA.SharedLibForms.dll
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLibForms.dll
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.DoubleInputForm.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\00-UserForms\SelectFilesDialog.resx
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\bin\Release\00-UserForms\SelectFilesDialog.cs
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.MC.RibbonButton.Revit.UserForms.ElemSelectionForm.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.CheckListBoxFormSearch.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.DropDownFormAtenea.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.FilePathForm.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.PasswordCodeDialogTask.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.ElemPathEntry.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.SelectFilesDialog.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.CheckListBoxFormUniqueSelectionSearch.resources

@@ -124,7 +124,7 @@ namespace TYPSA.SharedLib.UserForms
 
             chListBox.CheckOnClick = true;
 
-            // 👉 MUY IMPORTANTE: ahora usamos SelectedIndexChanged
+            // usamos SelectedIndexChanged
             chListBox.SelectedIndexChanged += ChListBox_SelectedIndexChanged;
 
             this.Controls.Add(chListBox);
@@ -155,7 +155,7 @@ namespace TYPSA.SharedLib.UserForms
         }
 
         // ============================================================
-        // SELECCIÓN CORRECTA (NUNCA FALLA)
+        // SELECCIÓN CORRECTA
         // ============================================================
         private void ChListBox_SelectedIndexChanged(object sender, EventArgs e)
         {

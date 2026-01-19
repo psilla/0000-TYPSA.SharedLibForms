@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Forms;
-using TYPSA.MC.RibbonButton.Revit.UserForms;
 
 namespace TYPSA.SharedLib.UserForms
 {
@@ -65,7 +64,9 @@ namespace TYPSA.SharedLib.UserForms
         }
 
         public static List<string> CheckListBoxFormSelectedItemsOut(
-            string mensaje, List<string> listInput, HashSet<string> itemsMarcadosPorDefecto = null
+            string mensaje, 
+            List<string> listInput, 
+            HashSet<string> itemsMarcadosPorDefecto = null
         )
         {
             // Crear instancia del formulario
@@ -76,15 +77,36 @@ namespace TYPSA.SharedLib.UserForms
                 DialogResult result = ventana.ShowDialog();
 
                 // Retornar la propiedad salida
-                return ventana.Salida;
+                return ventana.salida;
             }
         }
 
-        public static string CheckListBoxFormUniqueSelectionOut(string mensaje, List<string> listInput)
+        public static string CheckListBoxFormUniqueSelectionOut(
+            string mensaje, 
+            List<string> listInput
+        )
         {
             // Crear instancia del formulario
             using (CheckListBoxFormUniqueSelection ventana =
                 new CheckListBoxFormUniqueSelection(mensaje, listInput))
+            {
+                // Mostrar el formulario de manera modal
+                DialogResult result = ventana.ShowDialog();
+
+                // Retornar la propiedad salida
+                return ventana.salida;
+            }
+        }
+
+        public static string CheckListBoxFormUniqueSelectionSearchOut(
+            string mensaje,
+            List<string> listInput,
+            string defaultSelectedItem = null
+        )
+        {
+            // Crear instancia del formulario
+            using (CheckListBoxFormUniqueSelectionSearch ventana =
+                new CheckListBoxFormUniqueSelectionSearch(mensaje, listInput, defaultSelectedItem))
             {
                 // Mostrar el formulario de manera modal
                 DialogResult result = ventana.ShowDialog();
@@ -202,6 +224,19 @@ namespace TYPSA.SharedLib.UserForms
             // Retornar la propiedad salida
             return ventana.salida;
         }
+
+        public static Dictionary<string, string>
+        TextBoxFormOut_NextToLabel(
+            string mensaje,
+            List<(string propiedad, string valorDefecto)> props
+        )
+        {
+            using (TextBoxForm_NextToLabel ventana = new TextBoxForm_NextToLabel(mensaje, props))
+            {
+                return ventana.ShowDialog() == DialogResult.OK ? ventana.salida : null;
+            }
+        }
+
 
 
 

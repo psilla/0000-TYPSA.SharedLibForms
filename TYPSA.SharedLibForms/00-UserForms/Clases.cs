@@ -118,7 +118,6 @@ namespace TYPSA.SharedLib.UserForms
             return label;
         }
 
-
         public static Label label_Button(Size formSize, int spacing, string textInput)
         {
             // Crear el Label

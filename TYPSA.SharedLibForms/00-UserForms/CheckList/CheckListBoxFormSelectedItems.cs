@@ -14,7 +14,7 @@ namespace TYPSA.SharedLib.UserForms
 
         // Lista completa original
         private List<string> listaOriginal; 
-        public List<string> Salida { get; private set; }
+        public List<string> salida { get; private set; }
 
         public CheckListBoxFormSelectedItems(
             string mensajeSel,
@@ -22,18 +22,20 @@ namespace TYPSA.SharedLib.UserForms
             HashSet<string> itemsMarcadosPorDefecto = null
         )
         {
+            // Configuración del formulario
             this.Text = "Selection Form";
             this.BackColor = Color.White;
             this.StartPosition = FormStartPosition.CenterScreen;
             this.TopMost = true;
             this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.Salida = null;
+            this.salida = null;
 
             // Habilitar captura de teclado
             this.KeyPreview = true;
             this.KeyDown += OnKeyDown;
             listaOriginal = new List<string>(listInput);
 
+            // Dimensiones y espaciado
             var screenSize = Screen.PrimaryScreen.WorkingArea;
             this.Width = screenSize.Width / 2;
             this.Height = screenSize.Height / 2;
@@ -41,22 +43,29 @@ namespace TYPSA.SharedLib.UserForms
             int uiWidth = this.ClientSize.Width;
             int uiHeight = this.ClientSize.Height;
 
+            // Añadimos controles
             this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
 
+            // Header
             header = Clases.label_Header(mensajeSel, spacing);
             this.Controls.Add(header);
 
+            // Botón Next
             btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
             btnNext.Click += OnButtonClick;
-            this.AcceptButton = btnNext;
             this.Controls.Add(btnNext);
 
+            // CheckListBox
             chListBox = Clases.checkedListBox(
                 header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray()
             );
+            chListBox.CheckOnClick = true;
             this.Controls.Add(chListBox);
 
-            // ✔️ Marcar por defecto los items especificados
+            // Enter activa el botón Next
+            this.AcceptButton = btnNext;
+
+            // Marcar por defecto los items especificados
             if (itemsMarcadosPorDefecto != null)
             {
                 for (int i = 0; i < chListBox.Items.Count; i++)
@@ -69,14 +78,15 @@ namespace TYPSA.SharedLib.UserForms
                 }
             }
 
+            // Cierre Form
             this.FormClosing += OnFormClosing;
         }
 
         private void OnButtonClick(object sender, EventArgs e)
         {
-            Salida = chListBox.CheckedItems.Cast<object>().Select(item => item.ToString()).ToList();
+            salida = chListBox.CheckedItems.Cast<object>().Select(item => item.ToString()).ToList();
 
-            if (Salida.Count == 0)
+            if (salida.Count == 0)
             {
                 MessageBox.Show("Please select at least one item.", "Warning");
                 return;
@@ -87,7 +97,7 @@ namespace TYPSA.SharedLib.UserForms
 
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Salida == null && e.CloseReason == CloseReason.UserClosing)
+            if (salida == null && e.CloseReason == CloseReason.UserClosing)
             {
                 var result = MessageBox.Show(
                     "No option was selected. Do you want to cancel the process?",
@@ -99,6 +109,29 @@ namespace TYPSA.SharedLib.UserForms
                     e.Cancel = true;
                 }
             }
+        }
+
+        // Atajos de teclado: Ctrl+A (seleccionar todo), Ctrl+D (deseleccionar todo)
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Control | Keys.A))
+            {
+                for (int i = 0; i < chListBox.Items.Count; i++)
+                {
+                    chListBox.SetItemChecked(i, true);
+                }
+                return true;
+            }
+            else if (keyData == (Keys.Control | Keys.D))
+            {
+                for (int i = 0; i < chListBox.Items.Count; i++)
+                {
+                    chListBox.SetItemChecked(i, false);
+                }
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -161,8 +194,6 @@ namespace TYPSA.SharedLib.UserForms
             else
                 MostrarTodo();
         }
-
-
 
         private void InitializeComponent()
         {

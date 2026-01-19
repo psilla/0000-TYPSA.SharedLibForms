@@ -21,3 +21,4 @@ C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.MC.RibbonButto
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ElemPathEntry.resources
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.FilePathForm.resources
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.DropDownFormAtenea.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.CheckListBoxFormUniqueSelectionSearch.resources
