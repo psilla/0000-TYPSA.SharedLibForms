@@ -13,14 +13,14 @@ namespace TYPSA.SharedLib.UserForms
             string contenido
         )
         {
-            // 🔹 Normalizar saltos de línea
+            // Normalizar saltos de línea
             contenido = contenido.Replace("\n", Environment.NewLine);
 
-            // 🔹 Obtener el tamaño de la pantalla
+            // Obtener el tamaño de la pantalla
             int screenWidth = Screen.PrimaryScreen.WorkingArea.Width;
             int screenHeight = Screen.PrimaryScreen.WorkingArea.Height;
 
-            // 🔹 Crear el formulario
+            // Crear el formulario
             Form form = new Form();
             form.Text = titulo;
             form.StartPosition = FormStartPosition.CenterScreen; // Centrar el formulario
@@ -28,7 +28,7 @@ namespace TYPSA.SharedLib.UserForms
             form.MinimumSize = new System.Drawing.Size(500, 300); // Tamaño mínimo para evitar colapsos
             form.BackColor = Color.White;
 
-            // 🔹 Crear el TextBox
+            // Crear el TextBox
             TextBox textBox = new TextBox();
             textBox.Multiline = true;
             textBox.ScrollBars = ScrollBars.Vertical;
@@ -54,21 +54,21 @@ namespace TYPSA.SharedLib.UserForms
             int finalWidth = Math.Min(Math.Max(maxContentWidth, titleWidth) + 50, screenWidth - 100);
             form.Width = finalWidth;
 
-            // 🔹 Crear botón de cierre
+            // Crear botón de cierre
             Button closeButton = new Button();
             closeButton.Text = "Cerrar";
             closeButton.Dock = DockStyle.Bottom;
             closeButton.Height = 40;
             closeButton.Click += (sender, e) => form.Close();
 
-            // 💡 Hacer que ENTER active el botón de cierre
+            // Hacer que ENTER active el botón de cierre
             form.AcceptButton = closeButton;
 
-            // 🔹 Agregar controles al formulario
+            // Agregar controles al formulario
             form.Controls.Add(textBox);
             form.Controls.Add(closeButton);
 
-            // 🔹 Mostrar el formulario
+            // Mostrar el formulario
             form.ShowDialog();
         }
 

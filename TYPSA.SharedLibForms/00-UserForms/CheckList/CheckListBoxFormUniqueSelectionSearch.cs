@@ -29,9 +29,7 @@ namespace TYPSA.SharedLib.UserForms
         )
         {
             // Texto con atajos
-            string shortcuts =
-                "(Ctrl + F = Search, Esc = Clear search, Enter = Confirm)";
-
+            string shortcuts = "(Please select only one option)";
             string mensajeFinal = mensajeSel + "\n" + shortcuts;
 
             // -------------------------------------------------

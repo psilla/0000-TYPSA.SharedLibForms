@@ -15,7 +15,8 @@ namespace TYPSA.SharedLib.UserForms
 
         public TextBoxForm_NextToLabel(
             string mensajeSel,
-            List<(string propiedad, string valorDefecto)> props
+            List<(string propiedad, string valorDefecto)> props,
+            int textBoxWidth = 100
         )
         {
             this.Text = "Selection Form";
@@ -26,7 +27,7 @@ namespace TYPSA.SharedLib.UserForms
             this.FormClosing += OnFormClosing;
 
             var screenSize = Screen.PrimaryScreen.WorkingArea;
-            this.Width = screenSize.Width / 3;
+            this.Width = screenSize.Width / 2;
             int spacing = 25;
             int uiWidth = this.ClientSize.Width;
             int uiHeight = this.ClientSize.Height;
@@ -76,7 +77,7 @@ namespace TYPSA.SharedLib.UserForms
                 this.Controls.Add(labelPropiedad);
 
                 // TextBox asociado
-                TextBox textBox = Clases.textBox_NextToLabel(100, labelPropiedad);
+                TextBox textBox = Clases.textBox_NextToLabel(textBoxWidth, labelPropiedad);
                 textBox.Location = new Point(xTextBox, yOffset);
                 textBox.Text = campo.valorDefecto;
                 this.Controls.Add(textBox);
