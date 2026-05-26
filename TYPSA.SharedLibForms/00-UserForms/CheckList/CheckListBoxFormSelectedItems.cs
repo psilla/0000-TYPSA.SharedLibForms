@@ -17,7 +17,7 @@ namespace TYPSA.SharedLib.UserForms
         public List<string> salida { get; private set; }
 
         public CheckListBoxFormSelectedItems(
-            string mensajeSel,
+            string formMessage,
             List<string> listInput, 
             HashSet<string> itemsMarcadosPorDefecto = null
         )
@@ -47,7 +47,9 @@ namespace TYPSA.SharedLib.UserForms
             this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
 
             // Header
-            header = Clases.label_Header(mensajeSel, spacing);
+            header = Clases.label_Default(
+                formMessage, spacing, spacing, UIStyles.Header
+            );
             this.Controls.Add(header);
 
             // Botón Next
@@ -57,7 +59,7 @@ namespace TYPSA.SharedLib.UserForms
 
             // CheckListBox
             chListBox = Clases.checkedListBox(
-                header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray()
+                header, btnNext, spacing, uiWidth, listInput.ToArray()
             );
             chListBox.CheckOnClick = true;
             this.Controls.Add(chListBox);

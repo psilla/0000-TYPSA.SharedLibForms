@@ -75,16 +75,26 @@
     <Compile Include="00-UserForms\CheckList\CheckListBoxFormUniqueSelection.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="00-UserForms\cls_00_FormHelper.cs" />
     <Compile Include="00-UserForms\cls-FolderBrowser.cs" />
+    <Compile Include="00-UserForms\cls_00_InstaForm_ComboBox.cs" />
+    <Compile Include="00-UserForms\cls_00_InstaForm_TextBox.cs" />
+    <Compile Include="00-UserForms\ComboBox\ComboBoxForm_NextToLabel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="00-UserForms\ComboTextBox\ComboTextBoxForm_NextToLabel.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="00-UserForms\DoubleInputForm .cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDown\DropDownFormAtenea.cs">
+    <Compile Include="00-UserForms\ComboBox\DropDownFormAtenea.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="00-UserForms\FilePathForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="00-UserForms\cls_00_InstaForm_CheckedListBox.cs" />
     <Compile Include="00-UserForms\PasswordCodeDialogTask.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,7 +109,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="00-UserForms\ShowStringBuilder\ShowStringBuilder.cs" />
-    <Compile Include="00-UserForms\InstanciarFormularios.cs" />
     <Compile Include="00-UserForms\ExcelPathEntry.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -133,13 +142,10 @@
     <Compile Include="00-UserForms\TextBox\TextBoxForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDown\DropDownFormList.cs">
+    <Compile Include="00-UserForms\ComboBox\DropDownFormList.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="00-UserForms\DropDown\DropDownForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="00-UserForms\DropDown\DropDownFormwithFormText.cs">
+    <Compile Include="00-UserForms\ComboBox\DropDownForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="00-UserForms\TextBox\TextBoxForm_NextToLabel.cs">
@@ -161,10 +167,19 @@
     <EmbeddedResource Include="00-UserForms\CheckList\CheckListBoxFormUniqueSelectionSearch.resx">
       <DependentUpon>CheckListBoxFormUniqueSelectionSearch.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\Clases.resx">
+      <DependentUpon>Clases.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\ComboBox\ComboBoxForm_NextToLabel.resx">
+      <DependentUpon>ComboBoxForm_NextToLabel.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\ComboTextBox\ComboTextBoxForm_NextToLabel.resx">
+      <DependentUpon>ComboTextBoxForm_NextToLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\DoubleInputForm .resx">
       <DependentUpon>DoubleInputForm .cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="00-UserForms\DropDown\DropDownFormAtenea.resx">
+    <EmbeddedResource Include="00-UserForms\ComboBox\DropDownFormAtenea.resx">
       <DependentUpon>DropDownFormAtenea.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\ExcelPathEntry.resx">
@@ -194,6 +209,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="00-UserForms\ProjectCodeDialogTask.resx">
       <DependentUpon>ProjectCodeDialogTask.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="00-UserForms\TextBox\TextBoxForm_NextToLabel.resx">
+      <DependentUpon>TextBoxForm_NextToLabel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

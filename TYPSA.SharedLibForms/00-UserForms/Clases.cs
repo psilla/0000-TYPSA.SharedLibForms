@@ -6,50 +6,42 @@ namespace TYPSA.SharedLib.UserForms
 {
     public class Clases : Form
     {
-        public static Point get_location_label_textBox(Size formSize, Size controlSize, int spacing)
+        // CENTRAR FORMULARIO //
+
+        public static Point centrar_Formulario(
+            Rectangle screenSize, 
+            int formWidth, 
+            int formHeight
+        )
         {
-            // Calcular la posición X
-            int x = spacing;
-
-            // Calcular la posición Y centrada verticalmente
-            int y = (formSize.Height - controlSize.Height) / 2;
-
-            // Retornar la ubicación como un Point
-            return new Point(x, y);
-        }
-
-        public static Point get_location_label_button(Size formSize, Size controlSize, int spacing)
-        {
-            // Cálculo para colocar el Label en 1/5 de la altura de la ventana
-            int x = spacing;
-            int y = (formSize.Height - controlSize.Height) / 5;
-
-            return new Point(x, y);
-        }
-
-        public static Point get_location_textbox(Label label, Size formSize, Size controlSize)
-        {
-            // Coordenada donde termina el Label
-            int x = label.Location.X + label.Width;
-
-            // Coordenada Y centrada verticalmente
-            int y = (formSize.Height - controlSize.Height) / 2;
-
-            // Retornar la posición del TextBox
-            return new Point(x, y);
-        }
-
-        public static Point get_location_textbox_NextToLabel(Label label)
-        {
-            // Alinear en X a la derecha del Label con un margen de 10px
-            int x = label.Location.X + label.Width + 10;
-            // Usar la misma posición Y del Label
-            int y = label.Location.Y;
+            // Calcular la posición de la ventana
+            int x = (screenSize.Width - formWidth) / 2;
+            int y = (screenSize.Height - formHeight) / 2;
             // return
             return new Point(x, y);
         }
 
-        public static int get_width_textbox(Label label, int uiWidth, int spacing)
+        // GET LOCATION //
+
+        public static Point get_location_button(
+            Size formSize, 
+            Size controlSize
+        )
+        {
+            // Calcular la posición para centrar el control en la ventana
+            int x = (formSize.Width - controlSize.Width) / 2;
+            int y = (formSize.Height - controlSize.Height) / 2;
+            // return
+            return new Point(x, y);
+        }
+
+        // GET WIDTH //
+
+        public static int get_width_textbox(
+            Label label, 
+            int uiWidth, 
+            int spacing
+        )
         {
             // Coordenada donde termina el Label
             int ptoIni = label.Location.X + label.Width;
@@ -61,125 +53,81 @@ namespace TYPSA.SharedLib.UserForms
             return ptoFin - ptoIni;
         }
 
-        public static int get_width_textbox_NextToLabel(int fixedWidth)
-        {
-            // Devolver el ancho fijo del TextBox
-            return fixedWidth;
-        }
+        // CREATE LABEL // 
 
-        public static Point get_location_button(Size formSize, Size controlSize)
-        {
-            // Calcular la posición para centrar el control en la ventana
-            int x = (formSize.Width - controlSize.Width) / 2;
-            int y = (formSize.Height - controlSize.Height) / 2;
-            return new Point(x, y);
-        }
-
-        public static Point centrar_Formulario(Rectangle screenSize, int formWidth, int formHeight)
-        {
-            // Calcular la posición de la ventana
-            int x = (screenSize.Width - formWidth) / 2;
-            int y = (screenSize.Height - formHeight) / 2;
-
-            // Establecer la posición de la ventana
-            return new Point(x, y);
-        }
-
-        public static Label label_Header(string mensajeSel, int spacing)
+        public static Label label_Default(
+            string labelMessage,
+            int x,
+            int y,
+            Font labelFont
+        )
         {
             // Crear el Label
             Label labelSel = new Label();
 
-            // Estilo de texto para el encabezado
-            Font font = new Font("Helvetica", 8, FontStyle.Bold);
-            labelSel.Font = font;
-            labelSel.Text = mensajeSel;
-
-            // Configurar la ubicación y tamaño
-            labelSel.Location = new Point(spacing, spacing);
-            labelSel.AutoSize = true; // Permitir que el tamaño del label se adapte al texto
-
+            // Estilo 
+            labelSel.AutoSize = true;
+            labelSel.Font = labelFont;
+            labelSel.Text = labelMessage;
+            labelSel.Location = new Point(x, y);
+            
+            // return
             return labelSel;
         }
 
-        public static Label label_TextBox(Size formSize, int spacing)
-        {
-            // Crear el Label
-            Label label = new Label();
+        // CREATE TEXTBOX // 
 
-            // Configurar propiedades del Label
-            label.Font = new Font("Helvetica", 8);
-            label.Text = "Enter a value:";
-            label.AutoSize = true; // Permitir que el tamaño del Label se adapte al texto
-
-            // Calcular ubicación usando GetLocationLabelTextBox
-            label.Location = get_location_label_textBox(formSize, label.PreferredSize, spacing);
-
-            return label;
-        }
-
-        public static Label label_Button(Size formSize, int spacing, string textInput)
-        {
-            // Crear el Label
-            Label label = new Label();
-
-            // Configurar propiedades del Label
-            label.Font = new Font("Helvetica", 8);
-            label.Text = textInput;
-            label.AutoSize = true; // Permitir que el tamaño del Label se adapte al texto
-
-            // Calcular la ubicación usando GetLocationLabelButton
-            label.Location = get_location_label_button(formSize, label.PreferredSize, spacing);
-
-            return label;
-        }
-
-        public static TextBox textBox(int uiWidth, int spacing, Label label, Size formSize)
-        {
-            // Crear y configurar el TextBox
-            TextBox textBox = new TextBox
-            {
-                BackColor = Color.FromArgb(245, 245, 245), // Gris más claro, estilo moderno
-                BorderStyle = BorderStyle.FixedSingle,     // Borde fino
-                Font = new Font("Segoe UI", 9),            // Fuente moderna y estándar
-                Size = new Size(get_width_textbox(label, uiWidth, spacing), 50), // Establecer tamaño
-                Location = get_location_textbox(label, formSize, label.PreferredSize) // Calcular ubicación
-            };
-
-            return textBox;
-        }
-
-        public static TextBox textBox_NextToLabel(int fixedWidth, Label label)
+        public static TextBox textBox_Default(
+            int fixedWidth,
+            int xOffset,
+            int yOffset
+        )
         {
             TextBox textBox = new TextBox
             {
-                BackColor = Color.FromArgb(245, 245, 245), // Gris más claro, estilo moderno
-                BorderStyle = BorderStyle.FixedSingle,     // Borde fino
-                Font = new Font("Segoe UI", 9),            // Fuente moderna y estándar
-                Size = new Size(get_width_textbox_NextToLabel(fixedWidth), 24), // Más compacto
-                Location = get_location_textbox_NextToLabel(label)
+                BackColor = Color.FromArgb(245, 245, 245),
+                BorderStyle = BorderStyle.FixedSingle,
+                Font = UIStyles.LabelRegular,
+                Size = new Size(fixedWidth, 25),
+                Location = new Point(xOffset, yOffset)
             };
             // return
             return textBox;
         }
 
-        public static ComboBox comboBox(Label header, int spacing, int uiHeight, int uiWidth, object[] listInput)
+        // CREATE COMBOBOX //
+
+        public static ComboBox comboBox_Default(
+            int fixedWidth,
+            int xOffset,
+            int yOffset,
+            object[] listInput
+        )
         {
-            // Construir el ComboBox
             ComboBox cBox = new ComboBox
             {
-                Location = new Point(spacing, header.Bottom + spacing), // Posición
-                Width = uiWidth - (spacing * 2), // Ancho
-                DropDownStyle = ComboBoxStyle.DropDownList // Configurar estilo
+                BackColor = Color.FromArgb(245, 245, 245),
+                FlatStyle = FlatStyle.Flat,
+                Font = UIStyles.LabelRegular,
+                Size = new Size(fixedWidth, 25),
+                Location = new Point(xOffset, yOffset),
+                DropDownStyle = ComboBoxStyle.DropDownList
             };
-
-            // Agregar elementos al ComboBox
+            // Agregamos elementos
             cBox.Items.AddRange(listInput);
-
+            // return
             return cBox;
         }
 
-        public static CheckedListBox checkedListBox(Label header, Button btnNext, int spacing, int uiHeight, int uiWidth, string[] listInput)
+        // CREATE CHECKEDLISTBOX //
+
+        public static CheckedListBox checkedListBox(
+            Label header, 
+            Button btnNext, 
+            int spacing, 
+            int uiWidth, 
+            string[] listInput
+        )
         {
             // Crear CheckedListBox
             CheckedListBox chListBox = new CheckedListBox
@@ -195,7 +143,7 @@ namespace TYPSA.SharedLib.UserForms
             {
                 chListBox.Items.Add(item);
             }
-
+            // return
             return chListBox;
         }
 
@@ -203,7 +151,6 @@ namespace TYPSA.SharedLib.UserForms
             Control controlAbove,
             Button btnNext,
             int spacing,
-            int uiHeight,
             int uiWidth,
             string[] listInput
         )
@@ -219,11 +166,17 @@ namespace TYPSA.SharedLib.UserForms
             // Agregar elementos
             foreach (var item in listInput)
                 chListBox.Items.Add(item);
-
+            // return
             return chListBox;
         }
 
-        public static CheckedListBox checkedListBoxByItem(Label header, Button btnNext, int spacing, int uiHeight, int uiWidth, string[] listInput)
+        public static CheckedListBox checkedListBoxByItem(
+            Label header, 
+            Button btnNext, 
+            int spacing, 
+            int uiWidth, 
+            string[] listInput
+        )
         {
             // Altura por ítem y máximo visible
             int rowHeight = 25;
@@ -253,7 +206,16 @@ namespace TYPSA.SharedLib.UserForms
             return chListBox;
         }
 
-        public ListBox listbox(Label header, Button btnNext, int spacing, int uiHeight, int uiWidth, string[] listInput)
+        // CREATE LISTBOX //
+
+        public ListBox listbox(
+            Label header, 
+            Button btnNext, 
+            int spacing, 
+            int uiHeight, 
+            int uiWidth, 
+            string[] listInput
+        )
         {
             // Crear el ListBox
             ListBox listBox = new ListBox
@@ -270,7 +232,13 @@ namespace TYPSA.SharedLib.UserForms
             return listBox;
         }
 
-        public static Button button_Next(int uiWidth, int spacing, int uiHeight)
+        // CREATE BUTTON //
+
+        public static Button button_Next(
+            int uiWidth, 
+            int spacing, 
+            int uiHeight
+        )
         {
             // Crear botón "Next"
             Button btnNext = new Button
@@ -290,44 +258,28 @@ namespace TYPSA.SharedLib.UserForms
             return btnNext;
         }
 
-        public static Button button_fileAndFolderPath(string textInput, Size formSize)
+        public static Button button_fileAndFolderPath(
+            string textInput
+        )
         {
             // Crear el botón "Seleccionar Ruta"
             Button btnSelect = new Button
             {
                 Text = textInput,
                 FlatStyle = FlatStyle.Flat, // Cambio estilo botón para cambio de borde
-                BackColor = Color.FromArgb(255, 192, 192), // Color del botón
+                BackColor = Color.FromArgb(240, 240, 240),
                 Size = new Size(300, 50), // Tamaño del botón
                 TextAlign = ContentAlignment.MiddleCenter // Centrar el texto en el botón
             };
 
-            // Configurar estilo del borde del botón
-            btnSelect.FlatAppearance.BorderColor = Color.Red; // Color del borde
+            // Configurar estilo del borde
+            btnSelect.FlatAppearance.BorderColor = Color.DarkGray; // Color del borde
             btnSelect.FlatAppearance.BorderSize = 2; // Grosor del borde
 
-            // Usar el método para centrar el botón en el formulario
-            btnSelect.Location = get_location_button(formSize, btnSelect.Size);
-
+            // return
             return btnSelect;
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // Clases
-            // 
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "Clases";
-            this.Load += new System.EventHandler(this.Clases_Load);
-            this.ResumeLayout(false);
-
-        }
-
-        private void Clases_Load(object sender, EventArgs e)
-        {
-
-        }
+      
     }
 }

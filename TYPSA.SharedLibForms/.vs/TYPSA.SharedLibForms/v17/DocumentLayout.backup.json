@@ -1,12 +1,7 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\0000-TYPSA.SharedLibForms\\TYPSA.SharedLibForms\\",
-  "Documents": [
-    {
-      "AbsoluteMoniker": "D:0:0:{8F836313-B339-4DB6-8A55-AF61386871B4}|TYPSA.SharedLibForms.csproj|c:\\0000-typsa.sharedlibforms\\typsa.sharedlibforms\\00-userforms\\instanciarformularios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{8F836313-B339-4DB6-8A55-AF61386871B4}|TYPSA.SharedLibForms.csproj|solutionrelative:00-userforms\\instanciarformularios.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    }
-  ],
+  "Documents": [],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
@@ -14,12 +9,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 8,
+          "SelectedChildIndex": -1,
           "Children": [
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
-            },
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
@@ -47,19 +38,6 @@
             {
               "$type": "Bookmark",
               "Name": "ST:128:0:{75188d03-9892-4ae2-abf1-207126247ce5}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "InstanciarFormularios.cs",
-              "DocumentMoniker": "C:\\0000-TYPSA.SharedLibForms\\TYPSA.SharedLibForms\\00-UserForms\\InstanciarFormularios.cs",
-              "RelativeDocumentMoniker": "00-UserForms\\InstanciarFormularios.cs",
-              "ToolTip": "C:\\0000-TYPSA.SharedLibForms\\TYPSA.SharedLibForms\\00-UserForms\\InstanciarFormularios.cs",
-              "RelativeToolTip": "00-UserForms\\InstanciarFormularios.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T13:28:03.763Z",
-              "EditorCaption": ""
             }
           ]
         },
@@ -106,6 +84,16 @@
             {
               "$type": "Bookmark",
               "Name": "ST:2:0:{e8034f19-ab72-4f06-83fd-f6832b41aa63}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 162,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{004be353-6879-467c-9d1e-9ac23cdf6d49}"
             }
           ]
         }

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace TYPSA.SharedLib.UserForms
@@ -10,110 +10,81 @@ namespace TYPSA.SharedLib.UserForms
         private Label header;
         private Button btnNext;
 
+        // Diccionario de salida
         public Dictionary<string, string> salida = null;
+        // Diccionario interno de TextBox asociados a cada propiedad
         private Dictionary<string, TextBox> propertyTextBoxes = new Dictionary<string, TextBox>();
 
         public TextBoxForm_NextToLabel(
-            string mensajeSel,
-            List<(string propiedad, string valorDefecto)> props,
-            int textBoxWidth = 100
+            string formMessage,
+            List<(string propiedad, string valorDefecto)> fields,
+            int textBoxWidth = -1,
+            string formTitle = "Selection Form"
         )
         {
-            this.Text = "Selection Form";
-            this.BackColor = Color.White;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
-            this.FormClosing += OnFormClosing;
+            // ============
+            // HELPER
+            // ============
 
-            var screenSize = Screen.PrimaryScreen.WorkingArea;
-            this.Width = screenSize.Width / 2;
-            int spacing = 25;
-            int uiWidth = this.ClientSize.Width;
-            int uiHeight = this.ClientSize.Height;
-
-            header = Clases.label_Header(mensajeSel, spacing);
-            this.Controls.Add(header);
-
-            int yOffset = header.Location.Y + header.Height + spacing;
+            formLayoutEntities layout = cls_00_FormHelper.BuildBaseLayout(
+                this, formTitle, formMessage, fields.Select(f => f.propiedad), f => f,
+                (l, offset) => l.TextBoxOffsetX = offset, NextButtonPressed, OnFormClosing
+            );
 
             // ============
-            // CÁLCULO DE ANCHOS MÁXIMOS
+            // CREAR ENTIDADES
             // ============
-            int maxDescripcionWidth = 0;
-            int maxPropiedadWidth = 0;
 
-            using (Graphics g = this.CreateGraphics())
+            int availableWidth = this.ClientSize.Width - layout.TextBoxOffsetX - layout.Spacing;
+            // Usamos por defecto cuando el arg no es == -1
+            int finalWidth = textBoxWidth > 0 ? textBoxWidth : availableWidth;
+            // Calculamos desfase segun scroll o no
+            int yOffset = layout.NeedsScroll ? 0 : layout.TopReserved;
+            // Iteramos
+            foreach (var campo in fields)
             {
-                foreach (var campo in props)
-                {
-                    SizeF propSize = g.MeasureString(campo.propiedad, new Font("Segoe UI", 9, FontStyle.Bold));
+                // label
+                Label labelPropiedad = Clases.label_Default(
+                    campo.propiedad, layout.Spacing, yOffset, UIStyles.LabelItalic
+                );
+                layout.Container.Controls.Add(labelPropiedad);
 
-                    if (propSize.Width > maxPropiedadWidth)
-                        maxPropiedadWidth = (int)Math.Ceiling(propSize.Width);
-                }
-            }
+                // textBox
+                TextBox textBox = Clases.textBox_Default(
+                    finalWidth, layout.TextBoxOffsetX, yOffset
+                );
+                layout.Container.Controls.Add(textBox);
 
-            // ============
-            // POSICIONES X SEGÚN ANCHO MÁXIMO
-            // ============
-            int xDescripcion = 10;
-            int xPropiedad = xDescripcion + maxDescripcionWidth + 10;
-            int xTextBox = xPropiedad + maxPropiedadWidth + 15;
-
-            // ============
-            // CREACIÓN DE CONTROLES
-            // ============
-            foreach (var campo in props)
-            {
-                // Propiedad (en negrita)
-                Label labelPropiedad = new Label
-                {
-                    AutoSize = true,
-                    Font = new Font("Segoe UI", 9, FontStyle.Bold),
-                    Text = campo.propiedad,
-                    Location = new Point(xPropiedad, yOffset)
-                };
-                this.Controls.Add(labelPropiedad);
-
-                // TextBox asociado
-                TextBox textBox = Clases.textBox_NextToLabel(textBoxWidth, labelPropiedad);
-                textBox.Location = new Point(xTextBox, yOffset);
+                // Asignar valor por defecto
                 textBox.Text = campo.valorDefecto;
-                this.Controls.Add(textBox);
 
-                // Guardamos referencia
+                // Almacenamos
                 propertyTextBoxes[campo.propiedad] = textBox;
 
-                // Avanzamos verticalmente
-                yOffset += Math.Max(labelPropiedad.Height, textBox.Height) + spacing;
+                // Incrementar Y para la siguiente fila
+                yOffset += Math.Max(labelPropiedad.Height, textBox.Height) + layout.Spacing;
             }
 
             // ============
-            // BOTÓN SIGUIENTE
+            // HELPER
             // ============
-            btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
-            btnNext.Click += NextButtonPressed;
-            btnNext.Location = new Point(
-                this.ClientSize.Width - btnNext.Width - 20,
-                this.ClientSize.Height - btnNext.Height - 20
-            );
-            this.Controls.Add(btnNext);
 
-            int totalAlturaNecesaria = yOffset + btnNext.Height + spacing;
-            this.Height = Math.Min(totalAlturaNecesaria, screenSize.Height - 100);
-            this.AcceptButton = btnNext;
+            cls_00_FormHelper.FinalizeLayoutControls(
+                this, layout, yOffset, propertyTextBoxes, l => l.TextBoxOffsetX
+            );
         }
 
         private void NextButtonPressed(object sender, EventArgs e)
         {
             salida = new Dictionary<string, string>();
-
             foreach (var pair in propertyTextBoxes)
             {
                 string propertyName = pair.Key;
                 string textBoxValue = pair.Value.Text.Trim();
-                salida[propertyName] = textBoxValue;
+                if (!string.IsNullOrEmpty(textBoxValue))
+                {
+                    salida[propertyName] = textBoxValue;
+                }
             }
 
             this.DialogResult = DialogResult.OK;
@@ -131,19 +102,7 @@ namespace TYPSA.SharedLib.UserForms
             }
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "TextBoxForm_Solar";
-            this.Load += new System.EventHandler(this.TextBoxForm_Solar_Load);
-            this.ResumeLayout(false);
-        }
-
-        private void TextBoxForm_Solar_Load(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
 

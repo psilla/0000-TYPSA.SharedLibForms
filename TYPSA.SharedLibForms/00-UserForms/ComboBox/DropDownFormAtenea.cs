@@ -1,22 +1,25 @@
 ﻿using System;
-using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
+using System.Drawing;
 
 namespace TYPSA.SharedLib.UserForms
 {
-    public class FilePathForm : Form
+    public class DropDownFormAtenea : Form
     {
         private Label header;
-        private Label label;
-        private Button btnSelect;
         private Button btnNext;
-        public string salida = null; // Almacena la ruta seleccionada
+        private System.Windows.Forms.ComboBox comboBox;
+        public object salida = null; // Almacena la salida seleccionada
 
-        public FilePathForm(
-            string formMessage,
-            string formTitle = "Selection Form"
+        public DropDownFormAtenea(
+            string formMessage, 
+            object[] listInput,
+            string formTitle = "Selection Form",
+            object defaultValue = null
         )
         {
+            // Configuramos salida
             this.salida = null;
 
             formLayoutEntities layout = new formLayoutEntities();
@@ -39,17 +42,23 @@ namespace TYPSA.SharedLib.UserForms
             // CREAR ENTIDADES
             // ============
 
+            int comboWidth = layout.UiWidth - (layout.Spacing * 2);
+            // Calculamos desfase
             int yOffset = layout.TopReserved;
-            // label
-            label = Clases.label_Default(
-                "Select a file:", layout.Spacing, yOffset, UIStyles.LabelItalic
+            // Combo
+            comboBox = Clases.comboBox_Default(
+                comboWidth, layout.Spacing, yOffset, listInput
             );
-            this.Controls.Add(label);
+            // Evento
+            comboBox.SelectedIndexChanged += DropDownOutput;
+            // Añadimos
+            this.Controls.Add(comboBox);
 
-            // button Select
-            btnSelect = Clases.button_fileAndFolderPath("Select File");
-            btnSelect.Click += OnButtonClick;
-            this.Controls.Add(btnSelect);
+            // Establecer valor por defecto si existe
+            if (defaultValue != null && listInput.Contains(defaultValue))
+            {
+                comboBox.SelectedItem = defaultValue;
+            }
 
             // ============
             // CALCULAR ALTURA NECESARIA
@@ -60,7 +69,7 @@ namespace TYPSA.SharedLib.UserForms
             // Asignamos
             layout.TopPadding = paddingHeight;
 
-            int yOffsetCalc = btnSelect.Height;
+            int yOffsetCalc = comboBox.Height;
             // Asignamos
             layout.YOffsetCalc = layout.TopPadding + layout.TopReserved + yOffsetCalc + layout.BottomReserved;
 
@@ -71,46 +80,37 @@ namespace TYPSA.SharedLib.UserForms
             this.Height = layout.YOffsetCalc;
 
             // ============
-            // REUBICAR BUTTON SELECT
-            // ============
-
-            btnSelect.Location = new Point(
-                (this.ClientSize.Width - btnSelect.Width) / 2, label.Bottom + layout.Spacing
-            );
-
-            // ============
             // CENTRAR FORM
             // ============
 
             this.Location = Clases.centrar_Formulario(layout.ScreenSize, this.Width, this.Height);
         }
 
-        private void OnButtonClick(object sender, EventArgs e)
-        {
-            // Método para acceder a los archivos
-            using (OpenFileDialog dialog = new OpenFileDialog())
-            {
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    // Obtener la ruta
-                    string selectedPath = dialog.FileName;
-
-                    // Modificar el texto del label
-                    label.Text = $"Selected File: {selectedPath}";
-                    label.AutoSize = true; // Autoajuste al texto
-
-                    // Guardar la ruta seleccionada
-                    salida = selectedPath;
-                }
-            }
-        }
-
-        private void NextButtonPressed(object sender, EventArgs e)
+        // Eventos internos
+        private void NextButtonPressed(
+            object sender, 
+            EventArgs e
+        )
         {
             this.Close();
         }
 
-        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        private void DropDownOutput(
+            object sender, 
+            EventArgs e
+        )
+        {
+            System.Windows.Forms.ComboBox cb = sender as System.Windows.Forms.ComboBox;
+            if (cb != null)
+            {
+                salida = cb.SelectedItem;
+            }
+        }
+
+        private void OnFormClosing(
+            object sender, 
+            FormClosingEventArgs e
+        )
         {
             // Si no se seleccionó nada, y el cierre es por el usuario (no por código)
             if (salida == null && e.CloseReason == CloseReason.UserClosing)
@@ -127,9 +127,8 @@ namespace TYPSA.SharedLib.UserForms
                 }
             }
         }
-
-
     }
+
 
 }
 

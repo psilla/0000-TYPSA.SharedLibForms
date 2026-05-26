@@ -12,54 +12,81 @@ namespace TYPSA.SharedLib.UserForms
         private Button btnNext;
         public string salida = null; // Almacena el texto ingresado
 
-        public TextBoxForm(string mensajeSel, string defaultValue = "")
+        public TextBoxForm(
+            string formMessage,
+            string formTitle = "Selection Form",
+            string defaultValue = ""
+        )
         {
-            // Configuración del formulario
-            this.Text = "Enter a numeric value";
-            this.BackColor = Color.White;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            // Configuramos salida
             this.salida = null;
 
-            // Dimensiones y espaciado
-            var screenSize = Screen.PrimaryScreen.WorkingArea;
-            this.Width = screenSize.Width / 2;
-            this.Height = screenSize.Height / 4;
-            int spacing = 10;
-            int uiWidth = this.ClientSize.Width;
-            int uiHeight = this.ClientSize.Height;
+            formLayoutEntities layout = new formLayoutEntities();
 
-            // Añadimos controles
-            this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
+            // ============
+            // HELPER
+            // ============
 
-            // Header
-            header = Clases.label_Header(mensajeSel, spacing);
-            this.Controls.Add(header);
+            cls_00_FormHelper.InitializeBaseLayout(
+                this, layout, formTitle, formMessage, OnButtonClick, OnFormClosing
+            );
 
-            // Label
-            label = Clases.label_TextBox(this.ClientSize, spacing);
+            // ============
+            // RESERVAS
+            // ============
+
+            cls_00_FormHelper.CalculateLayoutReservedSpaces(layout);
+
+            // ============
+            // CREAR ENTIDADES
+            // ============
+
+            int yOffset = layout.TopReserved;
+            // label
+            label = Clases.label_Default(
+                "Enter a value:", layout.Spacing, yOffset, UIStyles.LabelItalic
+            );
             this.Controls.Add(label);
 
-            // TextBox
-            textBox = Clases.textBox(uiWidth, spacing, label, this.ClientSize);
-            textBox.Text = defaultValue; // 👈 asignar valor inicial si se pasa
+            int textBoxWidth = Clases.get_width_textbox(label, layout.UiWidth, layout.Spacing);
+            // textBox
+            textBox = Clases.textBox_Default(
+                textBoxWidth, label.Location.X + label.Width, yOffset
+            );
             this.Controls.Add(textBox);
+            // Asignamos valor
+            textBox.Text = defaultValue;
 
-            // Botón Next
-            btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
-            btnNext.Click += OnButtonClick;
-            btnNext.Click += NextButtonPressed;
-            this.Controls.Add(btnNext);
+            // ============
+            // CALCULAR ALTURA NECESARIA
+            // ============
 
-            // Enter activa el botón Next
-            this.AcceptButton = btnNext;
+            // Altura padding visual
+            int paddingHeight = this.Height - this.ClientSize.Height;
+            // Asignamos
+            layout.TopPadding = paddingHeight;
+
+            int yOffsetCalc = textBox.Height;
+            // Asignamos
+            layout.YOffsetCalc = layout.TopPadding + layout.TopReserved + yOffsetCalc + layout.BottomReserved;
+
+            // ============
+            // APLICAR ALTURA FORM
+            // ============
+
+            this.Height = layout.YOffsetCalc;
+
+            // ============
+            // CENTRAR FORM
+            // ============
+
+            this.Location = Clases.centrar_Formulario(layout.ScreenSize, this.Width, this.Height);
         }
 
         private void OnButtonClick(object sender, EventArgs e)
         {
             salida = textBox.Text;
-
+            // Validamos
             if (string.IsNullOrWhiteSpace(salida))
             {
                 // Mensaje
@@ -75,29 +102,25 @@ namespace TYPSA.SharedLib.UserForms
             this.Close();
         }
 
-
-        private void NextButtonPressed(object sender, EventArgs e)
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            this.Close();
+            // Si no se seleccionó nada, y el cierre es por el usuario (no por código)
+            if (salida == null && e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show(
+                    "No option was selected. Do you want to cancel the process?",
+                    "Confirmation"
+                );
+
+                if (result == DialogResult.No)
+                {
+                    // Cancela el cierre
+                    e.Cancel = true;
+                }
+            }
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // TextBoxForm
-            // 
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "TextBoxForm";
-            this.Load += new System.EventHandler(this.TextBoxForm_Load);
-            this.ResumeLayout(false);
-
-        }
-
-        private void TextBoxForm_Load(object sender, EventArgs e)
-        {
-
-        }
+     
     }
 
 }

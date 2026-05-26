@@ -22,3 +22,7 @@ C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.Us
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.ElemPathEntry.resources
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.SelectFilesDialog.resources
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.CheckListBoxFormUniqueSelectionSearch.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.ComboBoxForm_NextToLabel.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.TextBoxForm_NextToLabel.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.Clases.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Release\TYPSA.SharedLib.UserForms.ComboTextBoxForm_NextToLabel.resources

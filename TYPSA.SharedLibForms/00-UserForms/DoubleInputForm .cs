@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows.Forms;
-using System.Drawing;
 
 namespace TYPSA.SharedLib.UserForms
 {
@@ -10,53 +9,77 @@ namespace TYPSA.SharedLib.UserForms
         private Label label;
         private System.Windows.Forms.TextBox textBox;
         private Button btnNext;
-        public double? salida = null; // Salida de tipo double (puede ser null si no es válido)
+        public double? salida = null; // Salida de tipo double
 
-        public DoubleInputForm(string mensajeSel, string formText, double? defaultValue = null)
+        public DoubleInputForm(
+            string formMessage,
+            string formTitle = "Selection Form",
+            double? defaultValue = null
+        )
         {
-            // Configuración del formulario
-            this.Text = formText;
-            this.BackColor = Color.White;
-            this.StartPosition = FormStartPosition.CenterScreen;
-            this.TopMost = true;
-            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            formLayoutEntities layout = new formLayoutEntities();
 
-            // Dimensiones y espaciado
-            var screenSize = Screen.PrimaryScreen.WorkingArea;
-            this.Width = screenSize.Width / 2;
-            this.Height = screenSize.Height / 5;
-            int spacing = 10;
-            int uiWidth = this.ClientSize.Width;
-            int uiHeight = this.ClientSize.Height;
+            // ============
+            // HELPER
+            // ============
 
-            // Añadimos controles
-            this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
+            cls_00_FormHelper.InitializeBaseLayout(
+                this, layout, formTitle, formMessage, OnButtonClick, OnFormClosing
+            );
 
-            // Header
-            header = Clases.label_Header(mensajeSel, spacing);
-            this.Controls.Add(header);
+            // ============
+            // RESERVAS
+            // ============
 
-            // Label
-            label = Clases.label_TextBox(this.ClientSize, spacing);
+            cls_00_FormHelper.CalculateLayoutReservedSpaces(layout);
+
+            // ============
+            // CREAR ENTIDADES
+            // ============
+
+            int yOffset = layout.TopReserved;
+            // label
+            label = Clases.label_Default(
+                "Enter a value:", layout.Spacing, yOffset, UIStyles.LabelItalic
+            );
             this.Controls.Add(label);
 
-            // TextBox
-            int fixedWidth = 150;
-            textBox = Clases.textBox_NextToLabel(fixedWidth, label);
-            // ← aquí se activa la validación de entrada
+            int textBoxWidth = Clases.get_width_textbox(label, layout.UiWidth, layout.Spacing);
+            // textBox
+            textBox = Clases.textBox_Default(
+                textBoxWidth, label.Location.X + label.Width, yOffset
+            );
+            // Activamos validacion de entrada
             textBox.KeyPress += TextBox_KeyPress;
             // Mostrar el valor por defecto formateado
             if (defaultValue.HasValue)
                 textBox.Text = defaultValue.Value.ToString("0.##"); 
             this.Controls.Add(textBox);
 
-            // Botón Next
-            btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
-            btnNext.Click += OnButtonClick;
-            this.Controls.Add(btnNext);
+            // ============
+            // CALCULAR ALTURA NECESARIA
+            // ============
 
-            // 💡 Enter activa el botón Next
-            this.AcceptButton = btnNext;
+            // Altura padding visual
+            int paddingHeight = this.Height - this.ClientSize.Height;
+            // Asignamos
+            layout.TopPadding = paddingHeight;
+
+            int yOffsetCalc = textBox.Height;
+            // Asignamos
+            layout.YOffsetCalc = layout.TopPadding + layout.TopReserved + yOffsetCalc + layout.BottomReserved;
+
+            // ============
+            // APLICAR ALTURA FORM
+            // ============
+
+            this.Height = layout.YOffsetCalc;
+
+            // ============
+            // CENTRAR FORM
+            // ============
+
+            this.Location = Clases.centrar_Formulario(layout.ScreenSize, this.Width, this.Height);
         }
 
         private void TextBox_KeyPress(object sender, KeyPressEventArgs e)
@@ -80,7 +103,7 @@ namespace TYPSA.SharedLib.UserForms
             if (double.TryParse(textBox.Text, out double valor))
             {
                 salida = valor;
-                this.DialogResult = DialogResult.OK; // ✔ Importante para que funcione en la otra función
+                this.DialogResult = DialogResult.OK;
                 this.Close();
             }
             else
@@ -91,22 +114,22 @@ namespace TYPSA.SharedLib.UserForms
             }
         }
 
-        private void InitializeComponent()
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
-            this.SuspendLayout();
-            // 
-            // DoubleInputForm
-            // 
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "DoubleInputForm";
-            this.Load += new System.EventHandler(this.DoubleInputForm_Load);
-            this.ResumeLayout(false);
+            // Si no se seleccionó nada, y el cierre es por el usuario (no por código)
+            if (salida == null && e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show(
+                    "No option was selected. Do you want to cancel the process?",
+                    "Confirmation"
+                );
 
-        }
-
-        private void DoubleInputForm_Load(object sender, EventArgs e)
-        {
-
+                if (result == DialogResult.No)
+                {
+                    // Cancela el cierre
+                    e.Cancel = true;
+                }
+            }
         }
     }
 }

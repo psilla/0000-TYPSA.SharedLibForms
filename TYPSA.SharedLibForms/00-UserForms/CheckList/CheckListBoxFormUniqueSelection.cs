@@ -16,7 +16,10 @@ namespace TYPSA.SharedLib.UserForms
         public string salida { get; private set; }
 
 
-        public CheckListBoxFormUniqueSelection(string mensajeSel, List<string> listInput)
+        public CheckListBoxFormUniqueSelection(
+            string formMessage, 
+            List<string> listInput
+        )
         {
             // Configuración del formulario
             this.Text = "Selection Form";
@@ -38,7 +41,9 @@ namespace TYPSA.SharedLib.UserForms
             this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
 
             // Header
-            header = Clases.label_Header(mensajeSel, spacing);
+            header = Clases.label_Default(
+                formMessage, spacing, spacing, UIStyles.Header
+            );
             this.Controls.Add(header);
 
             // Botón Next
@@ -47,8 +52,9 @@ namespace TYPSA.SharedLib.UserForms
             this.Controls.Add(btnNext);
 
             // CheckListBox
-            chListBox =
-                Clases.checkedListBox(header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray());
+            chListBox = Clases.checkedListBox(
+                header, btnNext, spacing, uiWidth, listInput.ToArray()
+            );
             chListBox.CheckOnClick = true;
             // Seleccion unica
             chListBox.ItemCheck += OnItemCheck;

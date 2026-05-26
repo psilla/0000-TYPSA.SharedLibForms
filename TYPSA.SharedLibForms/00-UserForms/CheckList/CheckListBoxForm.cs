@@ -15,7 +15,10 @@ namespace TYPSA.SharedLib.UserForms
         // Almacena el texto ingresado
         public List<string> salida { get; private set; }
 
-        public CheckListBoxForm(string mensajeSel, List<string> listInput)
+        public CheckListBoxForm(
+            string formMessage, 
+            List<string> listInput
+        )
         {
             // Configuración del formulario
             this.Text = "Selection Form";
@@ -37,7 +40,9 @@ namespace TYPSA.SharedLib.UserForms
             this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
 
             // Header
-            header = Clases.label_Header(mensajeSel, spacing);
+            header = Clases.label_Default(
+                formMessage, spacing, spacing, UIStyles.Header
+            );
             this.Controls.Add(header);
 
             // Botón Next
@@ -46,8 +51,9 @@ namespace TYPSA.SharedLib.UserForms
             this.Controls.Add(btnNext);
 
             // CheckListBox
-            chListBox =
-                Clases.checkedListBox(header, btnNext, spacing, uiHeight, uiWidth, listInput.ToArray());
+            chListBox = Clases.checkedListBox(
+                header, btnNext, spacing, uiWidth, listInput.ToArray()
+            );
             chListBox.CheckOnClick = true;
             this.Controls.Add(chListBox);
 
@@ -96,7 +102,10 @@ namespace TYPSA.SharedLib.UserForms
         }
 
         // Atajos de teclado: Ctrl+A (seleccionar todo), Ctrl+D (deseleccionar todo)
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        protected override bool ProcessCmdKey(
+            ref Message msg, 
+            Keys keyData
+        )
         {
             if (keyData == (Keys.Control | Keys.A))
             {
@@ -118,23 +127,7 @@ namespace TYPSA.SharedLib.UserForms
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // CheckListBoxForm
-            // 
-            this.ClientSize = new System.Drawing.Size(284, 261);
-            this.Name = "CheckListBoxForm";
-            this.Load += new System.EventHandler(this.CheckListBoxForm_Load);
-            this.ResumeLayout(false);
-
-        }
-
-        private void CheckListBoxForm_Load(object sender, EventArgs e)
-        {
-
-        }
+      
     }
 
 

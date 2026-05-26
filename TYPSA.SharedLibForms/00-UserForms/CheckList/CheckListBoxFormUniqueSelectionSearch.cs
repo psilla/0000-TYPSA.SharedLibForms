@@ -23,18 +23,19 @@ namespace TYPSA.SharedLib.UserForms
         public string salida { get; private set; }
 
         public CheckListBoxFormUniqueSelectionSearch(
-            string mensajeSel,
+            string formMessage,
             List<string> listInput,
             string defaultSelectedItem = null
         )
         {
             // Texto con atajos
             string shortcuts = "(Please select only one option)";
-            string mensajeFinal = mensajeSel + "\n" + shortcuts;
+            formMessage = formMessage + "\n" + shortcuts;
 
             // -------------------------------------------------
             // FORM
             // -------------------------------------------------
+
             this.Text = "Selection Form";
             this.BackColor = Color.White;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -49,58 +50,62 @@ namespace TYPSA.SharedLib.UserForms
             int uiWidth = this.ClientSize.Width;
             int uiHeight = this.ClientSize.Height;
 
-            this.Location = Clases.centrar_Formulario(
-                screenSize,
-                this.Width,
-                this.Height
-            );
+            this.FormClosing += OnFormClosing;
 
             // -------------------------------------------------
             // HEADER
             // -------------------------------------------------
-            header = Clases.label_Header(mensajeFinal, spacing);
+
+            header = Clases.label_Default(
+                formMessage, spacing, spacing, UIStyles.Header
+            );
             this.Controls.Add(header);
 
             // -------------------------------------------------
             // BUSCADOR
             // -------------------------------------------------
+
             txtSearch = new TextBox();
             txtSearch.Font = new Font("Segoe UI", 10);
-            txtSearch.Width = uiWidth - 20;
-            txtSearch.Location = new Point(10, header.Bottom + 10);
+            txtSearch.Width = uiWidth - (spacing*2);
+            txtSearch.Location = new Point(spacing, header.Bottom + spacing);
+            txtSearch.BackColor = Color.FromArgb(245, 245, 245);
+            txtSearch.BorderStyle = BorderStyle.FixedSingle;
+            txtSearch.ForeColor = Color.Gray;
+
+            // Evento
             txtSearch.TextChanged += TxtSearch_TextChanged;
+            // Añadimos
             this.Controls.Add(txtSearch);
 
             // -------------------------------------------------
-            // BOTÓN NEXT
+            // BUTTON NEXT
             // -------------------------------------------------
+
             btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
             btnNext.Click += OnButtonClick;
             this.Controls.Add(btnNext);
+            this.AcceptButton = btnNext;
 
             // -------------------------------------------------
-            // LISTA
+            // CREAR ENTIDADES
             // -------------------------------------------------
+
             chListBox = Clases.checkedListBox(
-                txtSearch,
-                btnNext,
-                spacing,
-                uiHeight,
-                uiWidth,
-                listInput.ToArray()
+                txtSearch, btnNext, spacing, uiWidth, listInput.ToArray()
             );
-
             chListBox.CheckOnClick = true;
+
+            // Eventos
             chListBox.ItemCheck += OnItemCheck;
             chListBox.KeyDown += ChListBox_KeyDown;
-
             this.Controls.Add(chListBox);
 
             // -------------------------------------------------
-            // DATOS
+            // DATOS POR DEFECTO
             // -------------------------------------------------
-            allItems = new List<string>(listInput);
 
+            allItems = new List<string>(listInput);
             // Valor por defecto (si existe)
             if (!string.IsNullOrWhiteSpace(defaultSelectedItem) &&
                 allItems.Contains(defaultSelectedItem))
@@ -119,13 +124,43 @@ namespace TYPSA.SharedLib.UserForms
                 }
             }
 
-            this.AcceptButton = btnNext;
-            this.FormClosing += OnFormClosing;
+            // -------------------------------------------------
+            // AJUSTAR ALTURA
+            // -------------------------------------------------
+
+            int itemHeight = chListBox.ItemHeight;
+            // maximos items visibles
+            int visibleItems = Math.Min(allItems.Count, 20);
+
+            // altura base por items
+            int listHeight = visibleItems * itemHeight;
+
+            // altura total del form
+            int newHeight = (this.Height - this.ClientSize.Height) + header.Height + txtSearch.Height + listHeight + btnNext.Height + (spacing * 5);
+
+            // altura maxima y mnima permitidas
+            int maxHeight = screenSize.Height / 2;
+            int minHeight = screenSize.Height / 3;
+
+            // altura final del form
+            this.Height = Math.Max(minHeight, Math.Min(newHeight, maxHeight));
+
+            // Ajustamos checklist al espacio disponible
+            int availableHeight = btnNext.Top - (txtSearch.Bottom + spacing);
+            chListBox.Height = availableHeight;
+
+            // -------------------------------------------------
+            // CENTRAR FORMULARIO
+            // -------------------------------------------------
+
+            this.Location = Clases.centrar_Formulario(
+                screenSize, this.Width, this.Height
+            );
         }
 
-        // =====================================================
+        // -----------------------------=========================
         // SELECCIÓN ÚNICA
-        // =====================================================
+        // -----------------------------=========================
         private void OnItemCheck(object sender, ItemCheckEventArgs e)
         {
             if (e.NewValue == CheckState.Checked)
@@ -144,9 +179,10 @@ namespace TYPSA.SharedLib.UserForms
             }
         }
 
-        // =====================================================
+        // -----------------------------=========================
         // BUSCADOR
-        // =====================================================
+        // -----------------------------=========================
+
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             string search = txtSearch.Text.Trim().ToLower();
@@ -162,9 +198,10 @@ namespace TYPSA.SharedLib.UserForms
                 chListBox.Items.Add(item, item == selectedItem);
         }
 
-        // =====================================================
+        // -----------------------------=========================
         // ATAJOS EN LISTA
-        // =====================================================
+        // -----------------------------=========================
+
         private void ChListBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Space && chListBox.SelectedIndex >= 0)
@@ -196,9 +233,10 @@ namespace TYPSA.SharedLib.UserForms
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        // =====================================================
-        // BOTÓN NEXT
-        // =====================================================
+        // -----------------------------=========================
+        // BUTTON NEXT
+        // -----------------------------=========================
+
         private void OnButtonClick(object sender, EventArgs e)
         {
             salida = selectedItem;
@@ -217,9 +255,10 @@ namespace TYPSA.SharedLib.UserForms
             this.Close();
         }
 
-        // =====================================================
+        // -----------------------------=========================
         // CIERRE FORM
-        // =====================================================
+        // -----------------------------=========================
+
         private void OnFormClosing(object sender, FormClosingEventArgs e)
         {
             if (salida == null && e.CloseReason == CloseReason.UserClosing)
@@ -235,5 +274,7 @@ namespace TYPSA.SharedLib.UserForms
                     e.Cancel = true;
             }
         }
+
+       
     }
 }

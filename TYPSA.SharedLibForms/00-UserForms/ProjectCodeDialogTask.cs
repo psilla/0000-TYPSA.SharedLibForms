@@ -21,7 +21,6 @@ namespace TYPSA.SharedLib.UserForms
             // Validate the project code format
             if (IsValidProjectCode(ProjectCode))
             {
-                MessageBox.Show($"The entered project code is: {ProjectCode}", "Project Code Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 // Close the window after clicking OK
                 DialogResult = DialogResult.OK;
             }

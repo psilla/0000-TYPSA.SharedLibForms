@@ -29,7 +29,7 @@ namespace TYPSA.SharedLib.UserForms
         public List<string> salida = null;
 
         public CheckListBoxFormSearch(
-            string mensajeSel,
+            string formMessage,
             List<string> listInput,
             List<string> listInputByDefault = null
         )
@@ -41,10 +41,12 @@ namespace TYPSA.SharedLib.UserForms
                 "Ctrl + H = Hide non-selected, " +
                 "Ctrl + M = Show all, " +
                 "Ctrl + I = Invert selection)";
+            formMessage = formMessage + "\n" + shortcutsMess;
 
-            string mensajeFinal = mensajeSel + "\n" + shortcutsMess;
+            // -------------------------------------------------
+            // FORM
+            // -------------------------------------------------
 
-            // --- FORM ---
             this.Text = "Selection Form";
             this.BackColor = Color.White;
             this.StartPosition = FormStartPosition.CenterScreen;
@@ -59,24 +61,31 @@ namespace TYPSA.SharedLib.UserForms
             int uiWidth = this.ClientSize.Width;
             int uiHeight = this.ClientSize.Height;
 
-            this.Location = Clases.centrar_Formulario(screenSize, this.Width, this.Height);
+            this.FormClosing += OnFormClosing;
 
+            // -------------------------------------------------
             // HEADER
-            header = Clases.label_Header(mensajeFinal, spacing);
+            // -------------------------------------------------
+
+            header = Clases.label_Default(
+                formMessage, spacing, spacing, UIStyles.Header
+            );
             this.Controls.Add(header);
 
+            // -------------------------------------------------
             // BUSCADOR
+            // -------------------------------------------------
+
             txtSearch = new TextBox();
             txtSearch.Font = new Font("Segoe UI", 10);
-            txtSearch.Width = uiWidth - 60;
-            txtSearch.Location = new Point(10, header.Bottom + 10);
-
+            txtSearch.Width = uiWidth - (spacing*2);
+            txtSearch.Location = new Point(spacing, header.Bottom + spacing);
             txtSearch.BackColor = Color.FromArgb(245, 245, 245);
             txtSearch.BorderStyle = BorderStyle.FixedSingle;
-
             txtSearch.ForeColor = Color.Gray;
             txtSearch.Text = "Search...";
 
+            // Evento
             txtSearch.GotFocus += (s, e) =>
             {
                 if (txtSearch.Text == "Search...")
@@ -85,7 +94,7 @@ namespace TYPSA.SharedLib.UserForms
                     txtSearch.ForeColor = Color.Black;
                 }
             };
-
+            // Evento
             txtSearch.LostFocus += (s, e) =>
             {
                 if (string.IsNullOrWhiteSpace(txtSearch.Text))
@@ -95,8 +104,14 @@ namespace TYPSA.SharedLib.UserForms
                 }
             };
 
+            // Evento
             txtSearch.TextChanged += TxtSearch_TextChanged;
+            // Añadimos
             this.Controls.Add(txtSearch);
+
+            // -------------------------------------------------
+            // PICTURE BOX
+            // -------------------------------------------------
 
             picSearch = new PictureBox();
             picSearch.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -106,32 +121,35 @@ namespace TYPSA.SharedLib.UserForms
             picSearch.Image = SystemIcons.Information.ToBitmap();
             this.Controls.Add(picSearch);
 
-            // BOTON NEXT
+            // -------------------------------------------------
+            // BUTTON NEXT
+            // -------------------------------------------------
+
             btnNext = Clases.button_Next(uiWidth, spacing, uiHeight);
             btnNext.Click += OnButtonClick;
             btnNext.Click += NextButtonPressed;
             this.Controls.Add(btnNext);
+            this.AcceptButton = btnNext;
 
-            // LISTA PRINCIPAL
+            // -------------------------------------------------
+            // CREAR ENTIDADES
+            // -------------------------------------------------
+
             chListBox = Clases.checkedListBox(
-                txtSearch,
-                btnNext,
-                spacing,
-                uiHeight,
-                uiWidth,
-                listInput.ToArray()
+                txtSearch, btnNext, spacing, uiWidth, listInput.ToArray()
             );
-
             chListBox.CheckOnClick = true;
 
-            // usamos SelectedIndexChanged
+            // Eventos
             chListBox.SelectedIndexChanged += ChListBox_SelectedIndexChanged;
-
             this.Controls.Add(chListBox);
 
-            allItems = new List<string>(listInput);
+            // -------------------------------------------------
+            // DATOS POR DEFECTO
+            // -------------------------------------------------
 
-            // MARCAR ITEMS POR DEFECTO
+            allItems = new List<string>(listInput);
+            // Valor por defecto (si existe)
             if (listInputByDefault != null)
             {
                 foreach (var item in listInputByDefault)
@@ -151,12 +169,43 @@ namespace TYPSA.SharedLib.UserForms
             // Activamos el filtro ahora que todo está cargado
             searchReady = true;
 
-            this.AcceptButton = btnNext;
+            // -------------------------------------------------
+            // AJUSTAR ALTURA
+            // -------------------------------------------------
+
+            int itemHeight = chListBox.ItemHeight;
+            // maximos items visibles
+            int visibleItems = Math.Min(allItems.Count, 20);
+
+            // altura base por items
+            int listHeight = visibleItems * itemHeight;
+
+            // altura total del form
+            int newHeight = (this.Height - this.ClientSize.Height) + header.Height + txtSearch.Height + listHeight + btnNext.Height + (spacing * 5);
+
+            // altura maxima y mnima permitidas
+            int maxHeight = screenSize.Height / 2;
+            int minHeight = screenSize.Height / 3;
+
+            // altura final del form
+            this.Height = Math.Max(minHeight, Math.Min(newHeight, maxHeight));
+
+            // Ajustamos checklist al espacio disponible
+            int availableHeight = btnNext.Top - (txtSearch.Bottom + spacing);
+            chListBox.Height = availableHeight;
+
+            // -------------------------------------------------
+            // CENTRAR FORMULARIO
+            // -------------------------------------------------
+
+            this.Location = Clases.centrar_Formulario(
+                screenSize, this.Width, this.Height
+            );
         }
 
-        // ============================================================
+        // -----------------------------================================
         // SELECCIÓN CORRECTA
-        // ============================================================
+        // -----------------------------================================
         private void ChListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (chListBox.SelectedIndex < 0) return;
@@ -170,9 +219,9 @@ namespace TYPSA.SharedLib.UserForms
                 selectedItems.Remove(item);
         }
 
-        // ============================================================
+        // -----------------------------================================
         // FILTRO DEL BUSCADOR
-        // ============================================================
+        // -----------------------------================================
         private void TxtSearch_TextChanged(object sender, EventArgs e)
         {
             if (!searchReady) return;
@@ -192,9 +241,10 @@ namespace TYPSA.SharedLib.UserForms
                 chListBox.Items.Add(item, itemsSeleccionados.Contains(item));
         }
 
-        // ============================================================
-        // BOTÓN NEXT
-        // ============================================================
+        // -----------------------------================================
+        // BUTTON NEXT
+        // -----------------------------================================
+
         private void OnButtonClick(object sender, EventArgs e)
         {
             salida = selectedItems.ToList();
@@ -203,10 +253,34 @@ namespace TYPSA.SharedLib.UserForms
 
         private void NextButtonPressed(object sender, EventArgs e) => this.Close();
 
-        // ============================================================
+        // -----------------------------=========================
+        // CIERRE FORM
+        // -----------------------------=========================
+
+        private void OnFormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (salida == null && e.CloseReason == CloseReason.UserClosing)
+            {
+                var result = MessageBox.Show(
+                    "No option was selected. Do you want to cancel the process?",
+                    "Confirmation",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question
+                );
+
+                if (result == DialogResult.No)
+                    e.Cancel = true;
+            }
+        }
+
+        // -----------------------------================================
         // ATAJOS DE TECLADO
-        // ============================================================
-        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        // -----------------------------================================
+
+        protected override bool ProcessCmdKey(
+            ref Message msg, 
+            Keys keyData
+        )
         {
             // Select All (solo los filtrados/visibles)
             if (keyData == (Keys.Control | Keys.A))
@@ -271,23 +345,7 @@ namespace TYPSA.SharedLib.UserForms
             return base.ProcessCmdKey(ref msg, keyData);
         }
 
-        private void InitializeComponent()
-        {
-            this.SuspendLayout();
-            // 
-            // CheckListBoxFormSearch
-            // 
-            this.ClientSize = new System.Drawing.Size(292, 212);
-            this.Name = "CheckListBoxFormSearch";
-            this.Load += new System.EventHandler(this.CheckListBoxFormSearch_Load);
-            this.ResumeLayout(false);
-
-        }
-
-        private void CheckListBoxFormSearch_Load(object sender, EventArgs e)
-        {
-
-        }
+       
     }
 }
 

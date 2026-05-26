@@ -22,3 +22,7 @@ C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.csproj.CoreCompileInputs.cache
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.dll
 C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLibForms.pdb
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ComboBoxForm_NextToLabel.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.TextBoxForm_NextToLabel.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.Clases.resources
+C:\0000-TYPSA.SharedLibForms\TYPSA.SharedLibForms\obj\Debug\TYPSA.SharedLib.UserForms.ComboTextBoxForm_NextToLabel.resources
