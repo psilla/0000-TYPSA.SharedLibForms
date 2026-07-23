@@ -12,12 +12,30 @@ namespace TYPSA.SharedLib.UserForms
         // Propiedad para devolver la ruta ingresada manualmente
         public string UserEnteredPath { get; private set; }
 
-        public PathEntry(string projectCode)
+        //public PathEntry(string projectCode)
+        //{
+        //    InitializeComponent();
+        //    this.projectCode = projectCode;
+        //    SelectedFiles = Array.Empty<string>(); // Inicializar vacío
+        //    UserEnteredPath = string.Empty; // Inicializar vacío
+        //    this.AcceptButton = button1;
+        //}
+
+        public PathEntry(string projectCode, string customLabel = null)
         {
             InitializeComponent();
+
             this.projectCode = projectCode;
-            SelectedFiles = Array.Empty<string>(); // Inicializar vacío
-            UserEnteredPath = string.Empty; // Inicializar vacío
+
+            // Si no viene nada, usar texto por defecto
+            label1.Text = string.IsNullOrWhiteSpace(customLabel)
+                ? "Please, paste the path to analyze"
+                : customLabel;
+
+            SelectedFiles = Array.Empty<string>();
+            UserEnteredPath = string.Empty;
+
+            this.AcceptButton = button1;
         }
 
         private void button1_Click(object sender, EventArgs e)
